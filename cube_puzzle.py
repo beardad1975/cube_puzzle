@@ -54,9 +54,11 @@ def input(key):
         common.msg_text.text = '拍照\n完成'
         common.photo_quad.visible = False
         capture.make_cube_texture()
-    elif common.state != common.PHOTO_STAGE and key == 'space':
-        cube = common.cube_list[0]
-        cube.animate_rotation_x(cube.rotation_x + 90,duration=0.4)
+    elif common.state != common.PHOTO_STAGE and key in ('1','2','3','4','5','6','7','8','9'):
+        index = int(key) - 1
+        if index < len(common.cube_list):
+            cube = common.cube_list[index]
+            cube.animate_rotation_x(cube.rotation_x + 90 ,duration=0.4)
         
     elif key == 'escape':
         application.quit()
