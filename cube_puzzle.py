@@ -28,7 +28,7 @@ def init():
         
         )
 
-    common.msg_text = Text('準備\n拍照',color=color.red, scale=5, background=True,
+    common.msg_text = Text('準備\n拍照',color=color.red, scale=5, background=False,
                            x=-0.5*window.aspect_ratio, y=0.1)
 
 
@@ -45,10 +45,23 @@ def main():
 def update():
     if common.state == common.PHOTO_STAGE:
         capture.update_texture()
-
+        
+    
 
 def input(key):
-    pass
+    if common.state == common.PHOTO_STAGE and key == 'space':
+        common.state = common.MAKING_STAGE
+        common.msg_text.text = '拍照\n完成'
+        common.photo_quad.visible = False
+        capture.make_cube_texture()
+    elif common.state != common.PHOTO_STAGE and key == 'space':
+        cube = common.cube_list[0]
+        cube.animate_rotation_x(cube.rotation_x + 90,duration=0.4)
+        
+    elif key == 'escape':
+        application.quit()
+    else:
+        print(key)
 
 
 
