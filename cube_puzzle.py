@@ -49,17 +49,41 @@ def update():
     
 
 def input(key):
+    can_animate = False
+    
     if common.state == common.PHOTO_STAGE and key == 'space':
         common.state = common.MAKING_STAGE
         common.msg_text.text = '拍照\n完成'
         common.photo_quad.visible = False
         capture.make_cube_texture()
-    elif common.state != common.PHOTO_STAGE and key in ('1','2','3','4','5','6','7','8','9'):
-        index = int(key) - 1
+    elif common.state != common.PHOTO_STAGE and key in common.up_turn_keymap:
+        index = common.up_turn_keymap[key]- 1
         if index < len(common.cube_list):
             cube = common.cube_list[index]
-            cube.animate_rotation_x(cube.rotation_x + 90 ,duration=0.4)
-        
+            try:
+                if cube.animations[-1].finished:
+                    can_animate = True
+            except IndexError:
+                # empty list
+                can_animate = True  
+            
+            if can_animate:
+                cube.animate_rotation_x(cube.rotation_x + 90 ,duration=0.4)
+    elif common.state != common.PHOTO_STAGE and key in common.right_turn_keymap:
+        index = common.right_turn_keymap[key] - 1
+        if index < len(common.cube_list):
+            cube = common.cube_list[index]
+            try:
+                if cube.animations[-1].finished:
+                    can_animate = True
+            except IndexError:
+                # empty list
+                can_animate = True  
+            
+            if can_animate:
+                cube.animate_rotation_y(cube.rotation_y - 90 ,duration=0.4)        
+
+
     elif key == 'escape':
         application.quit()
     else:

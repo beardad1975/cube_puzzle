@@ -39,7 +39,18 @@ cube_list = []
 cube_img_list = []
 cube_border_list = []
 
-key_map = {'q':1,
+up_turn_keymap = {'1':1,
+           '2':2,
+           '3':3,
+           '4':4,
+           '5':5,
+           '6':6,
+           '7':7,
+           '8':8,
+           '9':9,
+            }
+
+right_turn_keymap = {'q':1,
            'w':2,
            'e':3,
            'r':4,
