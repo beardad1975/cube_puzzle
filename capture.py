@@ -47,7 +47,7 @@ def pngOverlay(img, pngImg):
     result_img = (png_bgr*alpha_3 + img*(1-alpha_3)) 
     
     # NB: change type to uint8
-    print(np.sum(result_img >200))
+    #print(np.sum(result_img >200))
 
     return result_img.astype(np.uint8)
 
@@ -131,8 +131,8 @@ def make_cube_texture():
             #print(tmp_tex_buf.shape)
             #import code;code.interact(local=dict(globals(), **locals()))
             #tmp_tex_buf = cv2.flip(tmp_tex_buf, -1)
-            if i == 0:
-                ret = cv2.imwrite('tmp.jpg',tmp_tex_buf)
+            #if i == 0:
+            #    ret = cv2.imwrite('tmp.jpg',tmp_tex_buf)
             
             tex = Texture()
             tex.setup2dTexture(common.TEX_SIZE_3X3 * 3, common.TEX_SIZE_3X3 * 3,

@@ -10,7 +10,7 @@ PHOTO_HEIGHT = 720
 
 BEGINNER_LEVEL = 'beginner' # 2x2
 MEDIUM_LEVEL = 'medium'     # 3x3
-ADVANCED_LEVEL = 'advanced' # 4x4
+
 
 
 # capture photo size 720x720
@@ -35,9 +35,22 @@ buf = None # video buffer
 app = None
 photo_quad = None
 photo_tex = None
+
 cube_list = []
+target_cube_index = 0
+
 cube_img_list = []
 cube_border_list = []
+
+
+
+
+rot_y_linspace3x3 = -50, -50+33, -50+33*2, 50
+rot_x_linspace3x3 = -50, -50+33, -50+33*2, 50
+
+
+
+
 
 up_turn_keymap = {'1':1,
            '2':2,
