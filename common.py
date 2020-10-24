@@ -30,11 +30,22 @@ cap = None # video capture
 buf = None # video buffer
 
 
+# state machine
+state_machine = None
+current_update = None
+current_input = None
+
 
 # ursina data
 app = None
+
+title_quad = None
+
 photo_quad = None
 photo_tex = None
+
+msg_text = None
+info = None
 
 cube_list = []
 target_cube_index = 0
