@@ -1,5 +1,6 @@
 import math
 import time
+import random
 
 from ursina import *
 from transitions import Machine
@@ -227,19 +228,78 @@ class StateAction(Machine):
             common.hard_mode.enabled = True
             common.hard_mode.color = color.rgba(255,255,255,0)
             common.hard_mode.fade_in(duration=0.5)
-    
+        print('before gen')
+        if common.level == common.HARD_LEVEL:
+            self.random_gen3x3()
+        print('after gen')
+        
+        self.can_random = False
+        
+        def show_logo():
+            common.random_logo.enabled = True
+            common.random_logo.color = color.rgba(255,255,255,0)
+            common.random_logo.fade_in(duration=0.5)
+            #self.can_random = True
+        
+        def start_random():
+            self.can_random = True
+        
+        invoke(show_logo, delay=1.5)
+        invoke(start_random, delay=3)
+        
+    def random_gen3x3(self):
+        self.random_steps = []
+        for i in range(9):
+            rand_num = random.randint(1,7)
+            tmp1 = [(i, 'up')] * rand_num
+            #for r in range(rand_num):
+            #    self.random_steps.append((i, do_up_turn))
+            
+            rand_num = random.randint(1,4)
+            tmp2 = [(i, 'right')] * rand_num
+            #for r in range(rand_num):
+            #    self.random_steps.append((i, do_right_turn))
+
+            rand_num = random.randint(1,4)
+            tmp3 = [(i, 'left')] * rand_num
+            #for r in range(rand_num):
+            #    self.random_steps.append((i, do_left_turn))
+            self.random_steps = self.random_steps + tmp1 + tmp2 + tmp3
+            
+        random.shuffle(self.random_steps)
+
+
     def random_update(self):
+        #print('here')
         pc = common.puzzle_camera
         now = time.time()
         pc.rotation_x = math.sin(now*0.3) * 15
         pc.rotation_y = math.cos(now*0.3) * 15
+    
+        if self.can_random and len(self.random_steps):
+            index, move = self.random_steps[-1]
+
+            if move == 'up':
+                ret = do_up_turn(index, duration=0.2)
+            elif move == 'right':
+                ret = do_right_turn(index, duration=0.2)
+            elif move == 'left':
+                ret = do_left_turn(index, duration=0.2)
+            
+            #ret = callee(index, duration=0.2)
+            if ret:
+                self.random_steps.pop()
+        elif self.can_random and not len(self.random_steps):
+            # next state
+            self.next_state()
+        
     
     def random_input(self, key):
         pass
     
     def on_exit_random(self):
         print('exit random')
-        pass
+        common.random_logo.enabled = False
 
 
 
@@ -247,7 +307,8 @@ class StateAction(Machine):
     # ---------state : puzzle---------
     def on_enter_puzzle(self):
         print('enter puzzle')
-        pass
+        common.current_update = self.puzzle_update
+        common.current_input = self.puzzle_input
     
     def puzzle_update(self):
         pass
@@ -262,7 +323,8 @@ class StateAction(Machine):
     # ---------state : result---------
     def on_enter_result(self):
         print('enter result')
-        pass
+        common.current_update = self.result_update
+        common.current_input = self.result_input
     
     def result_update(self):
         pass
@@ -280,3 +342,50 @@ def init():
     machine = StateAction()
     common.state_machine = machine
     machine.to_title()
+    
+    
+def do_up_turn(index, duration=0.4):
+    can_animate = False
+    if index < len(common.cube_list):
+        cube = common.cube_list[index]
+        try:
+            if cube.animations[-1].finished:
+                can_animate = True
+        except IndexError:
+            # empty list
+            can_animate = True  
+        
+        if can_animate:
+            cube.animate_rotation_x(cube.rotation_x + 90 ,duration=duration)
+    return can_animate
+    
+def do_right_turn(index, duration=0.4):
+    can_animate = False
+    if index < len(common.cube_list):
+        cube = common.cube_list[index]
+        try:
+            if cube.animations[-1].finished:
+                can_animate = True
+        except IndexError:
+            # empty list
+            can_animate = True  
+        
+        if can_animate:
+            cube.animate_rotation_y(cube.rotation_y - 90 ,duration=duration)
+    return can_animate
+
+def do_left_turn(index, duration=0.4):
+    can_animate = False
+    if index < len(common.cube_list):
+        cube = common.cube_list[index]
+        try:
+            if cube.animations[-1].finished:
+                can_animate = True
+        except IndexError:
+            # empty list
+            can_animate = True  
+        
+        if can_animate:
+            cube.animate_rotation_y(cube.rotation_y + 90 ,duration=duration)    
+
+    return can_animate

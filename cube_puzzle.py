@@ -136,6 +136,19 @@ def ursina_init():
         position=(-0.7,0.1,0),
         )
 
+    common.random_logo = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (0.2,0.7,1),
+        #color = color.white,
+        texture = 'random_logo.png',
+        enabled = False,
+        position=(-0.7,0.1,0),
+        )
+
+    # load inadvance
+    e = Entity(model='cube_puzzle', enabled=False)
+    common.cube_list.append(e)
 
 def main():
     
@@ -155,47 +168,7 @@ def update():
 #         common.info.text = f"rotation_y {pc.rotation_y:.1f}\nrotation_x {pc.rotation_x:.1f}"
         
 
-def do_up_turn(index):
-    can_animate = False
-    if index < len(common.cube_list):
-        cube = common.cube_list[index]
-        try:
-            if cube.animations[-1].finished:
-                can_animate = True
-        except IndexError:
-            # empty list
-            can_animate = True  
-        
-        if can_animate:
-            cube.animate_rotation_x(cube.rotation_x + 90 ,duration=0.4)
-
-def do_right_turn(index):
-    can_animate = False
-    if index < len(common.cube_list):
-        cube = common.cube_list[index]
-        try:
-            if cube.animations[-1].finished:
-                can_animate = True
-        except IndexError:
-            # empty list
-            can_animate = True  
-        
-        if can_animate:
-            cube.animate_rotation_y(cube.rotation_y - 90 ,duration=0.4)
-            
-def do_left_turn(index):
-    can_animate = False
-    if index < len(common.cube_list):
-        cube = common.cube_list[index]
-        try:
-            if cube.animations[-1].finished:
-                can_animate = True
-        except IndexError:
-            # empty list
-            can_animate = True  
-        
-        if can_animate:
-            cube.animate_rotation_y(cube.rotation_y + 90 ,duration=0.4) 
+ 
 
 
 def input(key):
