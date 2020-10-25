@@ -15,6 +15,7 @@ def ursina_init():
     window.borderless = False
     window.fps_counter.enabled = False
     Text.default_font = 'msjh.ttc'
+    Text.default_resolution = 1080 * Text.size
     
     common.puzzle_camera = PuzzleCamera(enabled=False)
     
@@ -83,7 +84,7 @@ def ursina_init():
         parent = camera.ui,
         model = 'quad',
         position = (0.7, 0.4, 0 ) ,
-        scale = (0.2, 0.2, 0),
+        scale = (0.15, 0.15, 0),
         texture = 'hard_mode.png',
         enabled = False,
         )
@@ -98,11 +99,43 @@ def ursina_init():
         scale_x = window.aspect_ratio,
         #color = color.white,
         enabled = False,
+        #z=.02,
         )
-    common.photo_info = Text('準\n備\n拍\n照',color=color.red, scale=6, background=False,
-                           x=-0.5*window.aspect_ratio, position=(-0.7,0.2,0), enabled=False)
+    common.photo_info = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (0.2,0.6,1),
+        #color = color.white,
+        texture = 'photo_info.png',
+        enabled = False,
+        position=(-0.7,0.1,0),
+        )
+
+    common.photo_white = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale_x = window.aspect_ratio,
+        color = color.white,
+        enabled = False,
+        #z=.02,
+        )
+
+     
+    common.photo_counter = Text('3',color=color.rgba(255,0,0,255),
+                            origin=(0,0),position=(-0.05,0,0), enabled=False)
 
     #common.info = Text(position=window.top_left)
+
+    common.making_logo = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (0.2,0.7,1),
+        #color = color.white,
+        texture = 'making_logo.png',
+        enabled = False,
+        position=(-0.7,0.1,0),
+        )
+
 
 def main():
     
