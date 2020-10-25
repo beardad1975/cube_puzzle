@@ -8,8 +8,8 @@ PUZZLE_STAGE = 'puzzle'
 PHOTO_WIDTH = 1280
 PHOTO_HEIGHT = 720
 
-BEGINNER_LEVEL = 'beginner' # 2x2
-MEDIUM_LEVEL = 'medium'     # 3x3
+EASY_LEVEL = 'easy' # 2x2
+HARD_LEVEL = 'hard'     # 3x3
 
 
 
@@ -23,7 +23,7 @@ TEX_SIZE_3X3 = 240  # 720 // 3
 # game data
 
 state = PHOTO_STAGE
-level = MEDIUM_LEVEL
+level = EASY_LEVEL
 
 # opencv data 
 cap = None # video capture
@@ -39,7 +39,18 @@ current_input = None
 # ursina data
 app = None
 
-title_quad = None
+puzzle_camera = None
+
+environment = None
+title_logo = None
+title_press_info = None
+
+menu_logo = None
+menu_easy_btn = None
+menu_hard_btn = None
+
+easy_mode = None
+hard_mode = None
 
 photo_quad = None
 photo_tex = None

@@ -13,37 +13,96 @@ def ursina_init():
     # ursina
     common.app = Ursina()
     window.borderless = False
+    window.fps_counter.enabled = False
     Text.default_font = 'msjh.ttc'
     
     common.puzzle_camera = PuzzleCamera(enabled=False)
     
+    common.environment = Entity(model='face_inner_sphere',
+                                texture='environment.jpg',
+                                scale=10,enable=False)    
     
-    
-    common.title_quad = Entity(
+    common.title_logo = Entity(
         parent = camera.ui,
         model = 'quad',
-        scale = (1.2, 0.3),
-        texture = 'title.png',
+        scale = (1.2, 0.5),
+        texture = 'title_logo.png',
+        y = 0.1,
+        #color = color.white,
+        enabled = False,
+        )
+    common.title_press_info = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (0.8, 0.1),
+        texture = 'title_press_info.png',
+        y = -0.25,
         #color = color.white,
         enabled = False,
         )
     
+    common.menu_logo = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (0.6, 0.15),
+        texture = 'menu_logo.png',
+        y = 0.3,
+        #color = color.white,
+        enabled = False,
+        )
     
+    common.menu_easy_btn = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        
+        texture = 'menu_easy_btn.png',
+
+        #color = color.white,
+        enabled = False,
+        )
+
+    common.menu_hard_btn = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        
+        texture = 'menu_hard_btn.png',
+
+        #color = color.white,
+        enabled = False,
+        )
+
+    common.easy_mode = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        position = (0.5, 0.5, 0 ) ,
+        texture = 'easy_mode.png',
+        enabled = False,
+        )
+
+    common.hard_mode = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        position = (0.7, 0.4, 0 ) ,
+        scale = (0.2, 0.2, 0),
+        texture = 'hard_mode.png',
+        enabled = False,
+        )
+
+
     common.photo_tex = Texture()
     common.photo_tex.setup2dTexture(common.PHOTO_WIDTH, common.PHOTO_HEIGHT,
                                   Texture.T_unsigned_byte, Texture.F_rgb8)
-
     common.photo_quad = Entity(
         parent = camera.ui,
         model = 'quad',
         scale_x = window.aspect_ratio,
-        color = color.white,
+        #color = color.white,
         enabled = False,
         )
-    common.msg_text = Text('準備\n拍照',color=color.red, scale=5, background=False,
-                           x=-0.5*window.aspect_ratio, y=0.1, enabled=False)
+    common.photo_info = Text('準\n備\n拍\n照',color=color.red, scale=6, background=False,
+                           x=-0.5*window.aspect_ratio, position=(-0.7,0.2,0), enabled=False)
 
-    common.info = Text(position=window.top_left)
+    #common.info = Text(position=window.top_left)
 
 def main():
     

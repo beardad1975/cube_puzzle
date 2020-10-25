@@ -20,7 +20,8 @@ def update_texture():
     retval, buf = common.cap.read()
     #print('buf', buf)
     buf = cv2.flip(buf, -1)
-    if common.level == common.MEDIUM_LEVEL:
+    if common.level == common.HARD_LEVEL:
+        print('here')
         x, y = common.CAP_LEFT_TOP
         size = common.TEX_SIZE_3X3
         # draw vertical lines
