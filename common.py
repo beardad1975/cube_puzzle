@@ -11,6 +11,11 @@ PHOTO_HEIGHT = 720
 EASY_LEVEL = 'easy' # 2x2
 HARD_LEVEL = 'hard'     # 3x3
 
+EASY_TIME_LIMIT = 80
+HARD_TIME_LIMIT = 100
+
+# EASY_TARGET = 3
+# HARD_TARGET = 7
 
 
 # capture photo size 720x720
@@ -24,6 +29,7 @@ TEX_SIZE_3X3 = 240  # 720 // 3
 
 state = PHOTO_STAGE
 level = EASY_LEVEL
+success = False
 
 # opencv data 
 cap = None # video capture
@@ -64,6 +70,9 @@ target_cube_index = 0
 cube_img_list = []
 cube_border_list = []
 
+# ok texture and texture stage
+ok_tex = None
+ok_ts = None
 
 
 

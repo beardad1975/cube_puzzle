@@ -80,27 +80,27 @@ class PuzzleCamera(Entity):
 #             print(camera.world_position)
 
     def update(self):
-        if held_keys['right arrow']:
-            #print(self.rotation_y)
-            if common.level == common.MEDIUM_LEVEL:
-                if self.rotation_y < common.rot_y_linspace3x3[-1]:
-                    self.rotation_y += 40 * time.dt
-                    calc_target_and_update3x3()
-        elif held_keys['left arrow']:
-            if common.level == common.MEDIUM_LEVEL:
-                if self.rotation_y > common.rot_y_linspace3x3[0]:
-                    self.rotation_y -= 40 * time.dt
-                    calc_target_and_update3x3()
-        elif held_keys['down arrow']:
-            if common.level == common.MEDIUM_LEVEL:
-                if self.rotation_x < common.rot_x_linspace3x3[-1]:
-                    self.rotation_x += 40 * time.dt
-                    calc_target_and_update3x3()
-        elif held_keys['up arrow']:
-            if common.level == common.MEDIUM_LEVEL:
-                if self.rotation_x > common.rot_x_linspace3x3[0]:
-                    self.rotation_x -= 40 * time.dt
-                    calc_target_and_update3x3()
+#         if held_keys['right arrow']:
+#             #print(self.rotation_y)
+#             if common.level == common.MEDIUM_LEVEL:
+#                 if self.rotation_y < common.rot_y_linspace3x3[-1]:
+#                     self.rotation_y += 40 * time.dt
+#                     calc_target_and_update3x3()
+#         elif held_keys['left arrow']:
+#             if common.level == common.MEDIUM_LEVEL:
+#                 if self.rotation_y > common.rot_y_linspace3x3[0]:
+#                     self.rotation_y -= 40 * time.dt
+#                     calc_target_and_update3x3()
+#         elif held_keys['down arrow']:
+#             if common.level == common.MEDIUM_LEVEL:
+#                 if self.rotation_x < common.rot_x_linspace3x3[-1]:
+#                     self.rotation_x += 40 * time.dt
+#                     calc_target_and_update3x3()
+#         elif held_keys['up arrow']:
+#             if common.level == common.MEDIUM_LEVEL:
+#                 if self.rotation_x > common.rot_x_linspace3x3[0]:
+#                     self.rotation_x -= 40 * time.dt
+#                     calc_target_and_update3x3()
         
         if mouse.right:
             self.rotation_x -= mouse.velocity[1] * self.rotation_speed
@@ -121,36 +121,36 @@ class PuzzleCamera(Entity):
 
 
 
-def calc_target_and_update3x3():
-    # calc col index
-    pc = common.puzzle_camera
-    
-    if pc.rotation_y <= common.rot_y_linspace3x3[1]:
-        col = 2
-    elif pc.rotation_y >= common.rot_y_linspace3x3[2]:
-        col = 0
-    else: # in between
-        col = 1
-    
-    # calc row index
-    if pc.rotation_x >= common.rot_y_linspace3x3[2]:
-        row = 0
-    elif pc.rotation_x <= common.rot_y_linspace3x3[1]:
-        row = 2
-    else: # in between
-        row = 1    
-    
-    index = row*3 + col
-    #print('index ', index)
-    # check and update
-    if index != common.target_cube_index:
-        common.target_cube_index = index
-        for i,c in enumerate(common.cube_list):
-            if i == index:
-                c.animate_z(-0.2,duration=.2)
-                
-            else:
-                c.animate_z(0,duration=.2)
+# def calc_target_and_update3x3():
+#     # calc col index
+#     pc = common.puzzle_camera
+#     
+#     if pc.rotation_y <= common.rot_y_linspace3x3[1]:
+#         col = 2
+#     elif pc.rotation_y >= common.rot_y_linspace3x3[2]:
+#         col = 0
+#     else: # in between
+#         col = 1
+#     
+#     # calc row index
+#     if pc.rotation_x >= common.rot_y_linspace3x3[2]:
+#         row = 0
+#     elif pc.rotation_x <= common.rot_y_linspace3x3[1]:
+#         row = 2
+#     else: # in between
+#         row = 1    
+#     
+#     index = row*3 + col
+#     #print('index ', index)
+#     # check and update
+#     if index != common.target_cube_index:
+#         common.target_cube_index = index
+#         for i,c in enumerate(common.cube_list):
+#             if i == index:
+#                 c.animate_z(-0.2,duration=.2)
+#                 
+#             else:
+#                 c.animate_z(0,duration=.2)
                 
 
 

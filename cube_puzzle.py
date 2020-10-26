@@ -1,6 +1,6 @@
 
 from ursina import *
-from panda3d.core import Texture
+from panda3d.core import Texture, TextureStage
 import numpy as np
 import cv2
 
@@ -14,8 +14,10 @@ def ursina_init():
     common.app = Ursina()
     window.borderless = False
     window.fps_counter.enabled = False
+    window.exit_button.visible = True
+    window.fullscreen = False
     Text.default_font = 'msjh.ttc'
-    Text.default_resolution = 1080 * Text.size
+    Text.default_resolution = 1080 * Text.size * 3
     
     common.puzzle_camera = PuzzleCamera(enabled=False)
     
@@ -143,12 +145,74 @@ def ursina_init():
         #color = color.white,
         texture = 'random_logo.png',
         enabled = False,
-        position=(-0.7,0.1,0),
+        position=(-0.65,0,0),
         )
 
-    # load inadvance
+    common.puzzle_logo = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        
+        texture = 'puzzle_logo.png',
+        y = 0,
+        #color = color.white,
+        enabled = False,
+        )
+
+    common.button_a = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        
+        texture = 'button_a.png',
+        x = -0.6,
+        y = -0.1,
+        scale = 0.2,
+        #color = color.white,
+        enabled = False,
+        )
+
+    common.button_b = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        
+        texture = 'button_b.png',
+        x = 0.6,
+        y = -0.1,
+        scale = 0.2,
+        #color = color.white,
+        enabled = False,
+        )
+
+    common.puzzle_countdown_info = Text('',color=color.rgba(255,0,0,255),scale=7,
+                            origin=(0,0),position=(-0.6,0.3,0), enabled=False)
+
+
+    common.success_logo = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (1.2, 0.3),
+        texture = 'success_logo.png',
+        y = 0,
+        #color = color.white,
+        enabled = False,
+        )
+
+    common.fail_logo = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (1.2, 0.3),
+        texture = 'fail_logo.png',
+        y = 0,
+        #color = color.white,
+        enabled = False,
+        )
+
+    # load inadvance for speed  up
     e = Entity(model='cube_puzzle', enabled=False)
     common.cube_list.append(e)
+    
+    common.ok_tex = loader.loadTexture('ok.png')
+    common.ok_ts = TextureStage('ts')
+    common.ok_ts.setMode(TextureStage.MDecal)
 
 def main():
     
