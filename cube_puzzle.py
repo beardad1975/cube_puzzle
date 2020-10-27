@@ -43,7 +43,10 @@ def ursina_init():
         #color = color.white,
         enabled = False,
         )
-    
+    #common.title_press_info.color = color.rgba(255,255,255,255)
+    common.title_press_info.blink(duration=2, loop=True,curve=curve.linear_boomerang)
+
+
     common.menu_logo = Entity(
         parent = camera.ui,
         model = 'quad',
@@ -77,7 +80,8 @@ def ursina_init():
     common.easy_mode = Entity(
         parent = camera.ui,
         model = 'quad',
-        position = (0.5, 0.5, 0 ) ,
+        position = (0.7, 0.4, 0 ) ,
+        scale = (0.15, 0.15, 0),
         texture = 'easy_mode.png',
         enabled = False,
         )
@@ -189,22 +193,36 @@ def ursina_init():
     common.success_logo = Entity(
         parent = camera.ui,
         model = 'quad',
-        scale = (1.2, 0.3),
+        scale = (0.8, 0.2),
         texture = 'success_logo.png',
+        y = -0.35,
+        #color = color.white,
+        enabled = False,
+        )
+    common.success_logo.blink(duration=3, loop=True, curve=curve.linear_boomerang)
+
+    common.fail_logo = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (0.8, 0.2),
+        texture = 'fail_logo.png',
+        y = -0.35,
+        #color = color.white,
+        enabled = False,
+        )
+    common.fail_logo.blink(duration=3, loop=True, curve=curve.linear_boomerang)
+
+    common.back_title_logo = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (0.6, 0.2),
+        texture = 'back_title_logo.png',
+        x = 0,
         y = 0,
         #color = color.white,
         enabled = False,
         )
 
-    common.fail_logo = Entity(
-        parent = camera.ui,
-        model = 'quad',
-        scale = (1.2, 0.3),
-        texture = 'fail_logo.png',
-        y = 0,
-        #color = color.white,
-        enabled = False,
-        )
 
     # load inadvance for speed  up
     e = Entity(model='cube_puzzle', enabled=False)
@@ -237,6 +255,19 @@ def update():
 
 def input(key):
     common.current_input(key)
+    
+    if key == 'home':
+        if common.back_title == 0 :
+            common.back_title = 1
+            common.back_title_logo.enabled = True
+        elif common.back_title == 1:
+            common.back_title = 0
+            common.back_title_logo.enabled = False
+            common.state_machine.to_title() 
+    
+    if key == 'escape' and common.back_title == 1:
+        common.back_title = 0
+        common.back_title_logo.enabled = False
     
 #     if common.state == common.PHOTO_STAGE and key == 'space':
 #         common.state = common.MAKING_STAGE

@@ -9,6 +9,7 @@ from transitions import Machine
 import common
 import capture
 
+
 class StateAction(Machine):
     def __init__(self):
         states = [ 
@@ -40,14 +41,24 @@ class StateAction(Machine):
         common.current_update = self.title_update
         common.current_input = self.title_input
         
+        capture.clean_cube_and_img()
+        
+        # handle delayed show up logo
+        common.button_a.enabled = False
+        common.button_b.enabled = False
+        common.puzzle_logo.enabled = False
+        common.hard_mode.enabled = False
+        common.puzzle_countdown_info.enabled = False
+        
         # entity
         common.environment.enabled = True
         
         common.title_logo.enabled = True
         common.title_logo.color = color.rgba(255,255,255,0)
         common.title_logo.fade_in(duration=2)
+        
         common.title_press_info.enabled = True
-        common.title_press_info.blink(duration=2, loop=True,curve=curve.linear_boomerang)
+        
         
         # camera
         common.puzzle_camera.enabled = True
@@ -110,7 +121,7 @@ class StateAction(Machine):
 
     def menu_input(self, key):
         #print('menu input')
-        if key == 'ab' and not self.pressed:
+        if key == 'a' and not self.pressed:
             self.pressed = True
             common.menu_hard_btn.enabled = False
             common.level = common.EASY_LEVEL
@@ -154,6 +165,11 @@ class StateAction(Machine):
             common.hard_mode.enabled = True
             common.hard_mode.color = color.rgba(255,255,255,0)
             common.hard_mode.fade_in(duration=0.5)
+        else:
+            common.easy_mode.enabled = True
+            common.easy_mode.color = color.rgba(255,255,255,0)
+            common.easy_mode.fade_in(duration=0.5)
+            
         
         common.photo_counter.enabled = True
         common.photo_counter.color = color.rgba(255,255,255,0)
@@ -186,6 +202,7 @@ class StateAction(Machine):
         common.photo_info.enabled = False
         common.photo_counter.enabled = False
         common.hard_mode.enabled = False
+        common.easy_mode.enabled = False
 
     # ---------state : making---------
     def on_enter_making(self):
@@ -223,6 +240,8 @@ class StateAction(Machine):
         common.making_logo.enabled= False
         if common.level == common.HARD_LEVEL:
             capture.make_cube_texture3x3()
+        else:
+            capture.make_cube_texture2x2()
 
     # ---------state : random---------
     def on_enter_random(self):
@@ -237,9 +256,16 @@ class StateAction(Machine):
             common.hard_mode.enabled = True
             common.hard_mode.color = color.rgba(255,255,255,0)
             common.hard_mode.fade_in(duration=0.5)
+        else:
+            common.easy_mode.enabled = True
+            common.easy_mode.color = color.rgba(255,255,255,0)
+            common.easy_mode.fade_in(duration=0.5)            
+        
         
         if common.level == common.HARD_LEVEL:
             self.random_gen3x3()
+        else:
+            self.random_gen2x2()
 
         # add ok attr on cubes (must befor random turn)
         for c in common.cube_list:
@@ -262,6 +288,27 @@ class StateAction(Machine):
     def random_gen3x3(self):
         self.random_steps = []
         for i in range(9):
+            rand_num = random.randint(1,7)
+            tmp1 = [(i, 'up')] * rand_num
+            #for r in range(rand_num):
+            #    self.random_steps.append((i, do_up_turn))
+            
+            rand_num = random.randint(1,4)
+            tmp2 = [(i, 'right')] * rand_num
+            #for r in range(rand_num):
+            #    self.random_steps.append((i, do_right_turn))
+
+            rand_num = random.randint(1,4)
+            tmp3 = [(i, 'left')] * rand_num
+            #for r in range(rand_num):
+            #    self.random_steps.append((i, do_left_turn))
+            self.random_steps = self.random_steps + tmp1 + tmp2 + tmp3
+            
+        random.shuffle(self.random_steps)
+
+    def random_gen2x2(self):
+        self.random_steps = []
+        for i in range(4):
             rand_num = random.randint(1,7)
             tmp1 = [(i, 'up')] * rand_num
             #for r in range(rand_num):
@@ -303,7 +350,7 @@ class StateAction(Machine):
             if ret:
                 self.random_steps.pop()
         elif self.can_random and not len(self.random_steps):
-
+            pass
             # next state            
             self.next_state()
         
@@ -315,6 +362,7 @@ class StateAction(Machine):
         print('exit random')
         common.random_logo.enabled = False
         common.hard_mode.enabled = False
+        common.easy_mode.enabled = False
         self.can_random = False
 
     # ---------state : puzzle---------
@@ -333,6 +381,9 @@ class StateAction(Machine):
         if common.level == common.HARD_LEVEL :
             common.hard_mode.enabled = True
             self.puzzle_countdown = common.HARD_TIME_LIMIT
+        else:
+            common.easy_mode.enabled = True
+            self.puzzle_countdown = common.EASY_TIME_LIMIT
 
         def start_puzzle():
             #print('start puzzle')
@@ -374,21 +425,37 @@ class StateAction(Machine):
                 if pc.rotation_y < common.rot_y_linspace3x3[-1]:
                     pc.rotation_y += 40 * time.dt
                     self.calc_target_and_update3x3()
+            else:
+                if pc.rotation_y < common.rot_y_linspace2x2[-1]:
+                    pc.rotation_y += 40 * time.dt
+                    self.calc_target_and_update2x2()
         elif held_keys['left arrow']:
             if common.level == common.HARD_LEVEL:
                 if pc.rotation_y > common.rot_y_linspace3x3[0]:
                     pc.rotation_y -= 40 * time.dt
                     self.calc_target_and_update3x3()
+            else:
+                if pc.rotation_y > common.rot_y_linspace2x2[0]:
+                    pc.rotation_y -= 40 * time.dt
+                    self.calc_target_and_update2x2()                
         elif held_keys['down arrow']:
             if common.level == common.HARD_LEVEL:
                 if pc.rotation_x < common.rot_x_linspace3x3[-1]:
                     pc.rotation_x += 40 * time.dt
                     self.calc_target_and_update3x3()
+            else:
+                if pc.rotation_x < common.rot_x_linspace2x2[-1]:
+                    pc.rotation_x += 40 * time.dt
+                    self.calc_target_and_update2x2()
         elif held_keys['up arrow']:
             if common.level == common.HARD_LEVEL:
                 if pc.rotation_x > common.rot_x_linspace3x3[0]:
                     pc.rotation_x -= 40 * time.dt
                     self.calc_target_and_update3x3()
+            else:
+                if pc.rotation_x > common.rot_x_linspace2x2[0]:
+                    pc.rotation_x -= 40 * time.dt
+                    self.calc_target_and_update2x2()
 
     def calc_target_and_update3x3(self):
         # calc col index
@@ -421,6 +488,35 @@ class StateAction(Machine):
                 else:
                     c.animate_z(0,duration=.2)
 
+    def calc_target_and_update2x2(self):
+        # calc col index
+        pc = common.puzzle_camera
+        
+        if pc.rotation_y <= common.rot_y_linspace2x2[1]:
+            col = 1
+
+        else: 
+            col = 0
+        
+        # calc row index
+        if pc.rotation_x >= common.rot_y_linspace2x2[1]:
+            row = 0
+        else: # in between
+            row = 1    
+        
+        index = row*2 + col
+        #print('index ', index)
+        # check and update
+        if index != common.target_cube_index:
+            common.target_cube_index = index
+            for i,c in enumerate(common.cube_list):
+                if i == index:
+                    c.animate_z(-0.3,duration=.2)
+                    
+                else:
+                    c.animate_z(0,duration=.2)
+
+
     def puzzle_input(self, key):
         if key == 'a':
             
@@ -439,8 +535,10 @@ class StateAction(Machine):
 #         elif key == 'space':
 #             self.check_cubes()
 #         elif key == 'x':
-#             common.cube_list[0].setTexture(common.ok_ts,common.ok_tex)
-
+#             common.cube_list[0].rotation_x = 15
+#         elif key == 'y':
+#             common.cube_list[0].rotation_y = 15
+            
     def check_cubes(self):
         for c in common.cube_list:
             rot = c.rotation
@@ -451,6 +549,9 @@ class StateAction(Machine):
         if common.level == common.HARD_LEVEL and self.ok_counter == 9:
             common.success = True
             self.next_state()
+        elif common.level == common.EASY_LEVEL and self.ok_counter == 4:
+            common.success = True
+            self.next_state()
 
     def on_exit_puzzle(self):
         print('exit puzzle')
@@ -458,6 +559,7 @@ class StateAction(Machine):
         common.button_b.enabled = False
         common.puzzle_logo.enabled = False
         common.hard_mode.enabled = False
+        common.easy_mode.enabled = False
         common.puzzle_countdown_info.enabled = False
 
     # ---------state : result---------
@@ -473,10 +575,16 @@ class StateAction(Machine):
         common.current_input = self.result_input
         if common.success:
             common.success_logo.enabled = True
-            common.success_logo.blink(duration=3, loop=True)
+            
         else:
             common.fail_logo.enabled = True
-            common.fail_logo.blink(duration=3, loop=True)
+            
+        if common.level == common.HARD_LEVEL :
+            common.hard_mode.enabled = True
+            
+        else:
+            common.easy_mode.enabled = True
+            
     
     def result_update(self):
         pc = common.puzzle_camera
@@ -491,15 +599,18 @@ class StateAction(Machine):
         print('exit result')
         common.success_logo.enabled = False
         common.fail_logo.enabled = False
-
+        common.hard_mode.enabled = False
+        common.easy_mode.enabled = False
 
 
 def init():
     machine = StateAction()
     common.state_machine = machine
     machine.to_title()
+
+
     
-    
+
 def do_up_turn(index, duration=0.4):
     can_animate = False
     if index < len(common.cube_list):
@@ -512,7 +623,10 @@ def do_up_turn(index, duration=0.4):
             can_animate = True  
         
         if can_animate:
-            cube.animate_rotation_x(cube.rotation_x + 90 ,duration=duration)
+            remainder = cube.rotation_x % 90
+            if abs(remainder) < 1 :
+                remainder = 0            
+            cube.animate_rotation_x(cube.rotation_x + 90 - remainder ,duration=duration)
     return can_animate
     
 def do_right_turn(index, duration=0.4):
@@ -527,7 +641,10 @@ def do_right_turn(index, duration=0.4):
             can_animate = True  
         
         if can_animate:
-            cube.animate_rotation_y(cube.rotation_y - 90 ,duration=duration)
+            remainder = cube.rotation_y % 90
+            if abs(remainder) < 1 :
+                remainder = 0    
+            cube.animate_rotation_y(cube.rotation_y - 90 - remainder ,duration=duration)
     return can_animate
 
 def do_left_turn(index, duration=0.4):
@@ -542,6 +659,9 @@ def do_left_turn(index, duration=0.4):
             can_animate = True  
         
         if can_animate:
-            cube.animate_rotation_y(cube.rotation_y + 90 ,duration=duration)    
+            remainder = cube.rotation_y % 90
+            if abs(remainder) < 1 :
+                remainder = 0    
+            cube.animate_rotation_y(cube.rotation_y + 90 - remainder ,duration=duration)    
 
     return can_animate

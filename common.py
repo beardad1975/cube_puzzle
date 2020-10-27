@@ -11,7 +11,7 @@ PHOTO_HEIGHT = 720
 EASY_LEVEL = 'easy' # 2x2
 HARD_LEVEL = 'hard'     # 3x3
 
-EASY_TIME_LIMIT = 80
+EASY_TIME_LIMIT = 60
 HARD_TIME_LIMIT = 100
 
 # EASY_TARGET = 3
@@ -24,7 +24,7 @@ CAP_LEFT_TOP = (280, 0)
 CAP_RIGHT_BOTTOM = (280+720, 0+720)
 
 TEX_SIZE_3X3 = 240  # 720 // 3
-
+TEX_SIZE_2X2 = 360  # 720 // 2
 # game data
 
 state = PHOTO_STAGE
@@ -40,6 +40,8 @@ buf = None # video buffer
 state_machine = None
 current_update = None
 current_input = None
+
+back_title = 0 #  1: for confirm  ,  2: to title state
 
 
 # ursina data
@@ -79,7 +81,8 @@ ok_ts = None
 rot_y_linspace3x3 = -50, -50+33, -50+33*2, 50
 rot_x_linspace3x3 = -50, -50+33, -50+33*2, 50
 
-
+rot_y_linspace2x2 = -50, 0, 50
+rot_x_linspace2x2 = -50, 0, 50
 
 
 
