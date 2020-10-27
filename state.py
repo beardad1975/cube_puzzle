@@ -8,6 +8,7 @@ from transitions import Machine
 
 import common
 import capture
+import control
 
 
 class StateAction(Machine):
@@ -43,6 +44,9 @@ class StateAction(Machine):
         
         capture.clean_cube_and_img()
         
+        
+        #camera.editor_position
+        
         # handle delayed show up logo
         common.button_a.enabled = False
         common.button_b.enabled = False
@@ -62,11 +66,23 @@ class StateAction(Machine):
         
         # camera
         common.puzzle_camera.enabled = True
+        camera.position = Vec3(0,0,-35)
+        camera.rotation = Vec3(0,0,0)
+        
+        #
+        self.pressed = False
 
     def title_update(self):
         #print('update title')
-        common.puzzle_camera.rotation_y += 0.04
-        common.puzzle_camera.rotation_x += math.sin(time.time()*0.5)*0.1
+        #common.puzzle_camera.rotation_y += 0.03
+        #common.puzzle_camera.rotation_x += math.sin(time.time()*0.3)*0.1
+
+        a, b = control.control_camera_return_ab()
+        if not self.pressed:
+            if a or b:
+                self.pressed = True
+                self.next_state()
+                
 
     def title_input(self, key):
         #print('input title, key:', key)
@@ -86,6 +102,7 @@ class StateAction(Machine):
         #invoke(setattr,(common.title_press_info, 'enabled',False),delay=1)
         common.title_press_info.enabled = False
         
+        camera.position = camera.editor_position
         
 
     # ---------state : menu---------
@@ -112,12 +129,37 @@ class StateAction(Machine):
         common.menu_hard_btn.color = color.rgba(255,255,255,0)
         common.menu_hard_btn.fade_in(duration=0.5)
 
-        self.pressed = False
+        self.pressed = True
+        def press_enable():
+            self.pressed = False
+        invoke(press_enable, delay=1)
+
+
 
     def menu_update(self):
         #print('menu update')
         common.puzzle_camera.rotation_y += 0.04
         common.puzzle_camera.rotation_x += math.sin(time.time()*0.5)*0.1
+
+        a, b = control.return_ab()
+        if a and not self.pressed:
+            self.pressed = True
+            common.menu_hard_btn.enabled = False
+            common.level = common.EASY_LEVEL
+            easy_btn = common.menu_easy_btn
+            #easy_btn.shake()
+            easy_btn.animate('position', (0,-0.1,0), duration=0.5)
+            easy_btn.animate('scale', (0.45,0.45,1), duration=0.5)
+            invoke(self.next_state,delay=1.2)
+        elif b and not self.pressed:
+            self.pressed = True
+            common.menu_easy_btn.enabled = False
+            common.level = common.HARD_LEVEL
+            hard_btn = common.menu_hard_btn
+            #hard_btn.shake()
+            hard_btn.animate('position', (0,-0.1,0), duration=0.5)
+            hard_btn.animate('scale', (0.45,0.45,1), duration=0.5)
+            invoke(self.next_state,delay=1.2)
 
     def menu_input(self, key):
         #print('menu input')
@@ -259,7 +301,9 @@ class StateAction(Machine):
         else:
             common.easy_mode.enabled = True
             common.easy_mode.color = color.rgba(255,255,255,0)
-            common.easy_mode.fade_in(duration=0.5)            
+            common.easy_mode.fade_in(duration=0.5)
+            # a little zoom camera
+            camera.world_position = lerp(camera.world_position, Vec3(0,0,0), 0.3)
         
         
         if common.level == common.HARD_LEVEL:
@@ -417,6 +461,13 @@ class StateAction(Machine):
         if now - self.check_time > 0.05:
             self.check_time = now
             self.check_cubes()
+        
+        # 
+        a, b = control.control_cube_return_ab()
+        if a :
+            do_up_turn(common.target_cube_index)
+        if b :
+            do_right_turn(common.target_cube_index)
         
         pc = common.puzzle_camera
         if held_keys['right arrow']:

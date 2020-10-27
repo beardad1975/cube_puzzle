@@ -60,14 +60,18 @@ class PuzzleCamera(Entity):
                     target_position = mouse.hovered_entity.world_position
 
                 camera.world_position = lerp(camera.world_position, target_position, self.zoom_speed * time.dt * 10)
+                print('camera.world_position: ',camera.world_position)
             else:
                 camera.fov -= self.zoom_speed * 100 * time.dt
+                
 
         elif key == 'scroll down' and not held_keys['control']:
             if not camera.orthographic:
                 camera.world_position += camera.back * self.zoom_speed * 100 * time.dt
+                print('camera.world_position: ',camera.world_position)
             else:
                 camera.fov += self.zoom_speed * 100 * time.dt
+                print(camera.fov)
 
 #         elif key == 'right mouse down' or key == 'middle mouse down':
 #             if mouse.hovered_entity and self.rotate_around_mouse_hit:
@@ -114,9 +118,9 @@ class PuzzleCamera(Entity):
 #             self.position += camera.down * held_keys['q'] * (self.move_speed + (self.move_speed * held_keys['shift']) - (self.move_speed*.9 * held_keys['alt'])) * time.dt
 
 
-        if mouse.middle:
-            self.position -= camera.right * mouse.velocity[0] * self.pan_speed[0]
-            self.position -= camera.up * mouse.velocity[1] * self.pan_speed[1]
+#         if mouse.middle:
+#             self.position -= camera.right * mouse.velocity[0] * self.pan_speed[0]
+#             self.position -= camera.up * mouse.velocity[1] * self.pan_speed[1]
 
 
 

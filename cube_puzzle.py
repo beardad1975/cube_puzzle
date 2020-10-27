@@ -8,6 +8,7 @@ import common
 import capture
 import state
 from puzzle_camera import PuzzleCamera
+import control
 
 def ursina_init():
     # ursina
@@ -199,7 +200,7 @@ def ursina_init():
         #color = color.white,
         enabled = False,
         )
-    common.success_logo.blink(duration=3, loop=True, curve=curve.linear_boomerang)
+    #common.success_logo.blink(duration=3, loop=True, curve=curve.linear_boomerang)
 
     common.fail_logo = Entity(
         parent = camera.ui,
@@ -210,7 +211,7 @@ def ursina_init():
         #color = color.white,
         enabled = False,
         )
-    common.fail_logo.blink(duration=3, loop=True, curve=curve.linear_boomerang)
+    #common.fail_logo.blink(duration=3, loop=True, curve=curve.linear_boomerang)
 
     common.back_title_logo = Entity(
         parent = camera.ui,
@@ -233,7 +234,7 @@ def ursina_init():
     common.ok_ts.setMode(TextureStage.MDecal)
 
 def main():
-    
+    control.serial_init()
     capture.init()
     ursina_init()
     state.init()

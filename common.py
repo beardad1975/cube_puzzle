@@ -1,3 +1,9 @@
+# serial data
+port = 'com46'
+ser = None
+last_x = 0
+last_y = 0
+
 
 # constants
 PHOTO_STAGE = 'photo'
@@ -34,6 +40,8 @@ success = False
 # opencv data 
 cap = None # video capture
 buf = None # video buffer
+
+
 
 
 # state machine
