@@ -39,6 +39,7 @@ class StateAction(Machine):
         # update and input
         common.success = False
         
+        control.serial_flush()
         common.current_update = self.title_update
         common.current_input = self.title_input
         
@@ -74,10 +75,11 @@ class StateAction(Machine):
 
     def title_update(self):
         #print('update title')
-        #common.puzzle_camera.rotation_y += 0.03
+        common.puzzle_camera.rotation_y += 0.03
         #common.puzzle_camera.rotation_x += math.sin(time.time()*0.3)*0.1
 
-        a, b = control.control_camera_return_ab()
+        #a, b = control.control_camera_return_ab()
+        a, b = control.return_ab()
         if not self.pressed:
             if a or b:
                 self.pressed = True
@@ -108,6 +110,7 @@ class StateAction(Machine):
     # ---------state : menu---------
     def on_enter_menu(self):
         print('enter menu')
+        control.serial_flush()
         common.current_update = self.menu_update
         common.current_input = self.menu_input
 
@@ -315,9 +318,12 @@ class StateAction(Machine):
         for c in common.cube_list:
             c.ok = False
         
+        common.remember_logo.enabled = True
+        
         self.can_random = False
         
         def show_logo():
+            common.remember_logo.enabled = False
             common.random_logo.enabled = True
             common.random_logo.color = color.rgba(255,255,255,0)
             common.random_logo.fade_in(duration=0.5)
@@ -326,8 +332,8 @@ class StateAction(Machine):
         def start_random():
             self.can_random = True
         
-        invoke(show_logo, delay=1.5)
-        invoke(start_random, delay=3.5)
+        invoke(show_logo, delay=2)
+        invoke(start_random, delay=4)
         
     def random_gen3x3(self):
         self.random_steps = []
@@ -431,6 +437,7 @@ class StateAction(Machine):
 
         def start_puzzle():
             #print('start puzzle')
+            control.serial_flush()
             common.current_update = self.puzzle_update
             common.current_input = self.puzzle_input
             common.button_a.enabled = True

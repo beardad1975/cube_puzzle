@@ -1,8 +1,10 @@
 # serial data
 port = 'com46'
+# port = 'com13'
 ser = None
 last_x = 0
 last_y = 0
+last_z = 0
 
 
 # constants
@@ -17,8 +19,8 @@ PHOTO_HEIGHT = 720
 EASY_LEVEL = 'easy' # 2x2
 HARD_LEVEL = 'hard'     # 3x3
 
-EASY_TIME_LIMIT = 60
-HARD_TIME_LIMIT = 100
+EASY_TIME_LIMIT = 80
+HARD_TIME_LIMIT = 120
 
 # EASY_TARGET = 3
 # HARD_TARGET = 7

@@ -2,6 +2,8 @@ import radio
 from microbit import *
 import ustruct
 
+uart.init(115200)
+
 radio.on()
 radio.config(channel = 9,group = 48)
 
@@ -13,6 +15,7 @@ while True:
     
     x = accelerometer.get_x()
     y = accelerometer.get_y()
+    z = accelerometer.get_z()
     a = 1 if button_a.is_pressed() else 0
     b = 1 if button_b.is_pressed() else 0 
     
@@ -24,7 +27,9 @@ while True:
     
     display.set_pixel(posx, posy, 3+a*2+b*2) 
     
-    result = ustruct.pack('!BBhhBB',255,0, x, y, a, b)
+    result = ustruct.pack('!BBhhhBB',255,0, x, y, z, a, b)
     uart.write(result)
-    radio.send(result)
+    radio.send_bytes(result)
     sleep(100)
+    
+

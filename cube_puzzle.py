@@ -16,7 +16,7 @@ def ursina_init():
     window.borderless = False
     window.fps_counter.enabled = False
     window.exit_button.visible = True
-    window.fullscreen = False
+    window.fullscreen = True
     Text.default_font = 'msjh.ttc'
     Text.default_resolution = 1080 * Text.size * 3
     
@@ -143,6 +143,16 @@ def ursina_init():
         position=(-0.7,0.1,0),
         )
 
+    common.remember_logo = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (0.2,0.7,1),
+        #color = color.white,
+        texture = 'remember_logo.png',
+        enabled = False,
+        position=(-0.65,0,0),
+        )
+
     common.random_logo = Entity(
         parent = camera.ui,
         model = 'quad',
@@ -196,7 +206,7 @@ def ursina_init():
         model = 'quad',
         scale = (0.8, 0.2),
         texture = 'success_logo.png',
-        y = -0.35,
+        y = -0.4,
         #color = color.white,
         enabled = False,
         )
@@ -207,7 +217,7 @@ def ursina_init():
         model = 'quad',
         scale = (0.8, 0.2),
         texture = 'fail_logo.png',
-        y = -0.35,
+        y = -0.4,
         #color = color.white,
         enabled = False,
         )
