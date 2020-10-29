@@ -53,7 +53,7 @@ def control_camera_return_ab():
 
                 x_degree = map_value(result.x, -1024, 1024, -120,120)
                 y_degree = map_value(result.y, -1024, 1024, 120,-120)
-                
+
                 #if common.last_x:
                 x_degree = lerp(common.last_x, x_degree, 0.3)
                 #if common.last_y:
@@ -82,21 +82,24 @@ def control_cube_return_ab():
                 #y_degree = map_value(result.y, -800, 800, -50,50)
                 z_degree = map_value(result.z, -500, 500, -50,50)
                 
-                #if common.last_x:
-                x_degree = lerp(common.last_x, x_degree, 0.3)
-                #if common.last_y:
-                z_degree = lerp(common.last_z, z_degree, 0.3)
-                            
-                common.puzzle_camera.rotation_y = x_degree
-                common.puzzle_camera.rotation_x = z_degree
+                # for steady
+                if abs(common.last_x - x_degree) > 5 or abs(common.last_z - z_degree) > 5:
+                    #if common.last_x:
+                    x_degree = lerp(common.last_x, x_degree, 0.2)
+                    #if common.last_y:
+                    z_degree = lerp(common.last_z, z_degree, 0.2)
+                                
+                    common.puzzle_camera.rotation_y = x_degree
+                    common.puzzle_camera.rotation_x = z_degree
 
-                common.last_x = x_degree
-                common.last_z = z_degree
-                
-                if common.level == common.HARD_LEVEL:
-                    common.state_machine.calc_target_and_update3x3()
-                else:
-                    common.state_machine.calc_target_and_update2x2()
+                    common.last_x = x_degree
+                    common.last_z = z_degree
+                    
+                    if common.level == common.HARD_LEVEL:
+                        common.state_machine.calc_target_and_update3x3()
+                    else:
+                        common.state_machine.calc_target_and_update2x2()
+
                 return(result.a, result.b)
         except serial.SerialException:
             print('無法讀取Microbit')

@@ -1,6 +1,6 @@
 # basic setup
-fullscreen = True     # 全螢幕
-#fullscreen = False
+#fullscreen = True     # 全螢幕
+fullscreen = False
 port = 'com46'        # microbit 連接埠
 #port = 'com13'
 EASY_TIME_LIMIT = 80  # 簡單時間限制
