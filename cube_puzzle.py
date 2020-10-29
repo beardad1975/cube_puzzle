@@ -16,7 +16,7 @@ def ursina_init():
     window.borderless = False
     window.fps_counter.enabled = False
     window.exit_button.visible = True
-    window.fullscreen = True
+    window.fullscreen = common.fullscreen
     Text.default_font = 'msjh.ttc'
     Text.default_resolution = 1080 * Text.size * 3
     

@@ -1,4 +1,5 @@
 import random
+import sys
 
 from ursina import *
 import numpy as np
@@ -12,7 +13,17 @@ import cube_puzzle
 
 def init():
     # opencv
+    
     common.cap = cv2.VideoCapture(0)
+    
+    
+    
+    if not common.cap.isOpened():
+        print('找不到攝影機，程式中斷')
+        sys.exit()
+    else:
+        print('已啟動攝影機')
+    
     common.cap.set(cv2.CAP_PROP_FRAME_WIDTH, common.PHOTO_WIDTH)
     common.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, common.PHOTO_HEIGHT)
     

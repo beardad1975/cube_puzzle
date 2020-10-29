@@ -35,7 +35,7 @@ class StateAction(Machine):
     
     # ---------state : title---------
     def on_enter_title(self):
-        print('enter title')
+        print('進入 標題階段')
         # update and input
         common.success = False
         
@@ -92,7 +92,7 @@ class StateAction(Machine):
             self.next_state()
 
     def on_exit_title(self):
-        print('exit title')        
+        print('離開 標題階段')        
         # entity
         
         #common.title_logo.fade_out(duration=0.5)
@@ -109,7 +109,7 @@ class StateAction(Machine):
 
     # ---------state : menu---------
     def on_enter_menu(self):
-        print('enter menu')
+        print('進入 選單階段')
         control.serial_flush()
         common.current_update = self.menu_update
         common.current_input = self.menu_input
@@ -186,7 +186,7 @@ class StateAction(Machine):
             invoke(self.next_state,delay=1.2)
 
     def on_exit_menu(self):
-        print('exit menu ')
+        print('離開 選單階段')
         common.menu_logo.enabled = False
         common.menu_easy_btn.enabled = False
         common.menu_hard_btn.enabled = False
@@ -194,7 +194,7 @@ class StateAction(Machine):
 
     # ---------state : photo---------
     def on_enter_photo(self):
-        print('enter photo')
+        print('進入 照相階段')
         common.current_update = self.photo_update
         common.current_input = self.photo_input
         
@@ -227,7 +227,7 @@ class StateAction(Machine):
         capture.update_texture()
         now = time.time()
         if now - self.last_time > 1.2:
-            print('count')
+            print('倒數')
             self.last_time = now
             common.photo_counter.color = color.rgba(255,0,0,255)
             common.photo_counter.scale = 16
@@ -242,7 +242,7 @@ class StateAction(Machine):
         pass
     
     def on_exit_photo(self):
-        print('exit photo ')
+        print('離開 照相階段')
         common.photo_quad.enabled = False
         common.photo_info.enabled = False
         common.photo_counter.enabled = False
@@ -251,7 +251,7 @@ class StateAction(Machine):
 
     # ---------state : making---------
     def on_enter_making(self):
-        print('enter making')
+        print('進入 製造拼圖階段')
         common.current_update = self.making_update
         common.current_input = self.making_input
         
@@ -279,7 +279,7 @@ class StateAction(Machine):
         pass
     
     def on_exit_making(self):
-        print('exit making ')
+        print('離開 製造拼圖階段')
         common.photo_quad.enabled = False
         common.photo_white.enabled = False
         common.making_logo.enabled= False
@@ -290,7 +290,7 @@ class StateAction(Machine):
 
     # ---------state : random---------
     def on_enter_random(self):
-        print('enter random')
+        print('進入 隨機階段')
         common.current_update = self.random_update
         common.current_input = self.random_input
         
@@ -409,7 +409,7 @@ class StateAction(Machine):
         pass
     
     def on_exit_random(self):
-        print('exit random')
+        print('離開 隨機階段')
         common.random_logo.enabled = False
         common.hard_mode.enabled = False
         common.easy_mode.enabled = False
@@ -417,7 +417,7 @@ class StateAction(Machine):
 
     # ---------state : puzzle---------
     def on_enter_puzzle(self):
-        print('enter puzzle')
+        print('進入 迷題階段')
         
         common.current_update = self.dummy_update
         common.current_input = self.dummy_input
@@ -612,7 +612,7 @@ class StateAction(Machine):
             self.next_state()
 
     def on_exit_puzzle(self):
-        print('exit puzzle')
+        print('離開 迷題階段')
         common.button_a.enabled = False
         common.button_b.enabled = False
         common.puzzle_logo.enabled = False
@@ -622,7 +622,7 @@ class StateAction(Machine):
 
     # ---------state : result---------
     def on_enter_result(self):
-        print('enter result')
+        print('進入 結果階段')
         common.puzzle_camera.rotation_x = 0
         common.puzzle_camera.rotation_y = 0
         # flatten cubes
@@ -654,7 +654,7 @@ class StateAction(Machine):
         pass
     
     def on_exit_result(self):
-        print('exit result')
+        print('離開 結果階段')
         common.success_logo.enabled = False
         common.fail_logo.enabled = False
         common.hard_mode.enabled = False

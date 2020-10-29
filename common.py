@@ -1,6 +1,15 @@
+# basic setup
+fullscreen = True     # 全螢幕
+#fullscreen = False
+port = 'com46'        # microbit 連接埠
+#port = 'com13'
+EASY_TIME_LIMIT = 80  # 簡單時間限制
+HARD_TIME_LIMIT = 120 # 困難時間限制
+
+
+
+
 # serial data
-port = 'com46'
-# port = 'com13'
 ser = None
 last_x = 0
 last_y = 0
