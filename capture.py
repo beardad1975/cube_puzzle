@@ -226,4 +226,11 @@ def make_cube_texture2x2():
                            Texture.T_unsigned_byte, Texture.F_rgb8)
         tex.setRamImage(tmp_tex_buf)
         common.cube_list[i].setTexture(tex)
-    
+
+def make_practice_cube2x2():
+    # make new cube
+    for i in (0.5, -0.5):
+        for j in (-0.5, 0.5):
+            e = Entity(model='cube_puzzle', x=j, y=i,texture='cube_tex_test.png')
+            e.ok = False
+            common.cube_list.append(e)

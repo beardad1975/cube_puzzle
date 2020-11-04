@@ -15,12 +15,14 @@ class StateAction(Machine):
     def __init__(self):
         states = [ 
                'title',
+               'practice',  # a special state
                'menu',
                'photo', 
                'making',
                'random',
                'puzzle',
                'result',
+               
              ]
         Machine.__init__(self, states=states, initial='title')
         self.add_ordered_transitions()
@@ -60,9 +62,15 @@ class StateAction(Machine):
         
         common.title_logo.enabled = True
         common.title_logo.color = color.rgba(255,255,255,0)
-        common.title_logo.fade_in(duration=2)
+        common.title_logo.fade_in(duration=1.5)
         
-        common.title_press_info.enabled = True
+        common.title_btn.enabled = True
+        common.title_btn.color = color.rgba(255,255,255,0)        
+        common.title_btn.fade_in(duration=2)       
+        
+  
+        
+        #common.title_press_info.enabled = True
         
         
         # camera
@@ -81,15 +89,20 @@ class StateAction(Machine):
         #a, b = control.control_camera_return_ab()
         a, b = control.return_ab()
         if not self.pressed:
-            if a or b:
+            if a :
                 self.pressed = True
-                self.next_state()
+                self.to_menu()
+            elif b:
+                self.pressed = True
+                self.to_practice()                
                 
 
     def title_input(self, key):
         #print('input title, key:', key)
-        if key  in ('a', 'b'):
-            self.next_state()
+        if key  == 'a':
+            self.to_menu()
+        elif key == 'b':
+            self.to_practice()
 
     def on_exit_title(self):
         print('離開 標題階段')        
@@ -99,13 +112,46 @@ class StateAction(Machine):
         
         #invoke(setattr,args=(common.title_logo, 'enabled',False),delay=1)
         common.title_logo.enabled = False
+        common.title_btn.enabled = False
         
+
         #common.title_press_info.fade_out(duration=0.5)
         #invoke(setattr,(common.title_press_info, 'enabled',False),delay=1)
-        common.title_press_info.enabled = False
+        #common.title_press_info.enabled = False
         
         camera.position = camera.editor_position
+
+
+    # ---------state : practice---------
+    def on_enter_practice(self):
+        print('進入 練習階段')
+        common.practice_logo.enabled = True
+        capture.make_practice_cube2x2()
+        common.level = common.EASY_LEVEL
+
+        control.serial_flush()
+        common.current_update = self.practice_update
+        common.current_input = self.practice_input
+
+        common.button_a.enabled = True
+        common.button_b.enabled = True
+
+    def practice_update(self):
+        a, b = control.control_cube_return_ab()
+        if a :
+            do_up_turn(common.target_cube_index)
+        if b :
+            do_right_turn(common.target_cube_index)
         
+    def practice_input(self, key):
+        pass
+
+    def on_exit_practice(self):
+        print('離開 練習階段')
+        common.practice_logo.enabled = False
+        common.button_a.enabled = False
+        common.button_b.enabled = False
+
 
     # ---------state : menu---------
     def on_enter_menu(self):
@@ -261,8 +307,9 @@ class StateAction(Machine):
         common.photo_white.fade_out(duration=1)
 
         def show_logo():
-            common.making_logo.enabled=True
-            common.making_logo.shake(duration=1)
+            if self.state == 'making':
+                common.making_logo.enabled=True
+                common.making_logo.shake(duration=1)
         invoke(show_logo, delay=1.5) 
         invoke(self.next_state, delay=2.5)
 
@@ -323,14 +370,16 @@ class StateAction(Machine):
         self.can_random = False
         
         def show_logo():
-            common.remember_logo.enabled = False
-            common.random_logo.enabled = True
-            common.random_logo.color = color.rgba(255,255,255,0)
-            common.random_logo.fade_in(duration=0.5)
-            #self.can_random = True
+            if self.state == 'random':
+                common.remember_logo.enabled = False
+                common.random_logo.enabled = True
+                common.random_logo.color = color.rgba(255,255,255,0)
+                common.random_logo.fade_in(duration=0.5)
+                #self.can_random = True
         
         def start_random():
-            self.can_random = True
+            if self.state == 'random':
+                self.can_random = True
         
         invoke(show_logo, delay=2)
         invoke(start_random, delay=4)
@@ -436,20 +485,21 @@ class StateAction(Machine):
             self.puzzle_countdown = common.EASY_TIME_LIMIT
 
         def start_puzzle():
-            #print('start puzzle')
-            control.serial_flush()
-            common.current_update = self.puzzle_update
-            common.current_input = self.puzzle_input
-            common.button_a.enabled = True
-            common.button_b.enabled = True
-            self.last_time = time.time()
-            self.check_time = time.time()
-            
-            common.puzzle_countdown_info.enabled = True
-            common.puzzle_countdown_info.text = str(self.puzzle_countdown)
-            #check ok
-            self.ok_counter = 0
-            self.check_cubes()
+            if self.state == 'puzzle':
+                #print('start puzzle')
+                control.serial_flush()
+                common.current_update = self.puzzle_update
+                common.current_input = self.puzzle_input
+                common.button_a.enabled = True
+                common.button_b.enabled = True
+                self.last_time = time.time()
+                self.check_time = time.time()
+                
+                common.puzzle_countdown_info.enabled = True
+                common.puzzle_countdown_info.text = str(self.puzzle_countdown)
+                #check ok
+                self.ok_counter = 0
+                self.check_cubes()
         invoke(start_puzzle, delay=1.5)
     
     
@@ -541,7 +591,7 @@ class StateAction(Machine):
             common.target_cube_index = index
             for i,c in enumerate(common.cube_list):
                 if i == index:
-                    c.animate_z(-0.3,duration=.2)
+                    c.animate_z(-1,duration=.2)
                     
                 else:
                     c.animate_z(0,duration=.2)
@@ -569,7 +619,7 @@ class StateAction(Machine):
             common.target_cube_index = index
             for i,c in enumerate(common.cube_list):
                 if i == index:
-                    c.animate_z(-0.3,duration=.2)
+                    c.animate_z(-1,duration=.2)
                     
                 else:
                     c.animate_z(0,duration=.2)
@@ -604,6 +654,9 @@ class StateAction(Machine):
                 c.ok = True
                 self.ok_counter += 1
                 c.setTexture(common.ok_ts,common.ok_tex)
+                
+            if c.ok and c.rotation != Vec3(0,0,0):
+                c.rotation = Vec3(0,0,0)
         if common.level == common.HARD_LEVEL and self.ok_counter == 9:
             common.success = True
             self.next_state()

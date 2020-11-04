@@ -1,9 +1,9 @@
 # basic setup
 #fullscreen = True     # 全螢幕
-fullscreen = False
-port = 'com46'        # microbit 連接埠
-#port = 'com13'
-EASY_TIME_LIMIT = 80  # 簡單時間限制
+fullscreen = False     # 無全螢幕
+#port = 'com46'        # 接收無線電 microbit 連接埠
+port = 'com13'      # 直接連接 microbit 連接埠
+EASY_TIME_LIMIT = 120  # 簡單時間限制
 HARD_TIME_LIMIT = 120 # 困難時間限制
 
 

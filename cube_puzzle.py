@@ -23,7 +23,8 @@ def ursina_init():
     common.puzzle_camera = PuzzleCamera(enabled=False)
     
     common.environment = Entity(model='face_inner_sphere',
-                                texture='environment.jpg',
+                                texture='360照片\\1.jpg',
+                                #texture='test.mp4',
                                 scale=10,enable=False)    
     
     common.title_logo = Entity(
@@ -35,17 +36,40 @@ def ursina_init():
         #color = color.white,
         enabled = False,
         )
-    common.title_press_info = Entity(
+
+    common.title_btn = Entity(
         parent = camera.ui,
         model = 'quad',
-        scale = (0.8, 0.1),
-        texture = 'title_press_info.png',
-        y = -0.25,
-        #color = color.white,
+        texture = 'title_btn.png',
+        #x = -0.25,
+        y = -0.3,
+        scale = (0.75, 0.25, 0),
         enabled = False,
         )
+
+    common.practice_logo = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        scale = (0.15,0.45,1),
+        #color = color.white,
+        texture = 'practice_logo.png',
+        enabled = False,
+        position=(-0.6,0.25,0),
+        )
+
+
+#     common.title_press_info = Entity(
+#         parent = camera.ui,
+#         model = 'quad',
+#         scale = (0.8, 0.1),
+#         texture = 'title_press_info.png',
+#         y = -0.25,
+#         #color = color.white,
+#         enabled = False,
+#         )
     #common.title_press_info.color = color.rgba(255,255,255,255)
-    common.title_press_info.blink(duration=2, loop=True,curve=curve.linear_boomerang)
+    #common.title_press_info.blink(duration=2, loop=True,curve=curve.linear_boomerang)
+
 
 
     common.menu_logo = Entity(

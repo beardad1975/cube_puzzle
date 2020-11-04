@@ -17,7 +17,7 @@ class InputResult:
 def serial_init():
     try:
         common.ser = serial.Serial(common.port, 115200, timeout=0)
-        print('已連結Microbit')
+        print('已連結Microbit ({})'.format(common.port))
     except serial.SerialException:
         print('注意：找不到Microbit')
 
