@@ -14,7 +14,7 @@ import cube_puzzle
 def init():
     # opencv
     
-    common.cap = cv2.VideoCapture(0)
+    common.cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
     
     
     
@@ -38,22 +38,22 @@ def update_texture():
         # draw vertical lines
         for i in range(4):
             buf = cv2.line(buf, (x+size*i,y),(x+size*i,common.CAP_SQUARE_SIZE),
-                           (0,255,255),3)
+                           (0,255,255),15)
         # draw horizontal lines
         for i in range(1,3):
             buf = cv2.line(buf, (x,y+size*i),(x+common.CAP_SQUARE_SIZE,y+size*i),
-                           (0,255,255),3)
+                           (0,255,255),15)
     else:
         x, y = common.CAP_LEFT_TOP
         size = common.TEX_SIZE_2X2
         # draw vertical lines
         for i in range(3):
             buf = cv2.line(buf, (x+size*i,y),(x+size*i,common.CAP_SQUARE_SIZE),
-                           (0,255,255),3)
+                           (0,255,255),20)
         # draw horizontal lines
         for i in range(1,2):
             buf = cv2.line(buf, (x,y+size*i),(x+common.CAP_SQUARE_SIZE,y+size*i),
-                           (0,255,255),3)
+                           (0,255,255),20)
         
         
         

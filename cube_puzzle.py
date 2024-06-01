@@ -16,23 +16,23 @@ def ursina_init():
     window.borderless = False
     window.fps_counter.enabled = False
     window.exit_button.visible = True
-    window.fullscreen = common.fullscreen
+    window.fullscreen = True  #common.fullscreen
     Text.default_font = 'msjh.ttc'
     Text.default_resolution = 1080 * Text.size * 3
     
     common.puzzle_camera = PuzzleCamera(enabled=False)
     
     common.environment = Entity(model='face_inner_sphere',
-                                texture='360照片\\1.jpg',
+                                texture='360照片\\2.jpg',
                                 #texture='test.mp4',
                                 scale=10,enable=False)    
     
     common.title_logo = Entity(
         parent = camera.ui,
         model = 'quad',
-        scale = (1.2, 0.5),
+        scale = (1, 0.8),
         texture = 'title_logo.png',
-        y = 0.1,
+        y = 0.05,
         #color = color.white,
         enabled = False,
         )

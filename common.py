@@ -1,8 +1,8 @@
 # basic setup
-#fullscreen = True     # 全螢幕
-fullscreen = False     # 無全螢幕
-#port = 'com46'        # 接收無線電 microbit 連接埠
-port = 'com13'      # 直接連接 microbit 連接埠
+# fullscreen = True     # 全螢幕
+fullscreen = True     # 無全螢幕
+port = 'com10'        # 接收無線電 microbit 連接埠
+# port = 'com13'      # 直接連接 microbit 連接埠
 EASY_TIME_LIMIT = 120  # 簡單時間限制
 HARD_TIME_LIMIT = 120 # 困難時間限制
 
@@ -28,8 +28,8 @@ PHOTO_HEIGHT = 720
 EASY_LEVEL = 'easy' # 2x2
 HARD_LEVEL = 'hard'     # 3x3
 
-EASY_TIME_LIMIT = 80
-HARD_TIME_LIMIT = 120
+# EASY_TIME_LIMIT = 80
+# HARD_TIME_LIMIT = 120
 
 # EASY_TARGET = 3
 # HARD_TARGET = 7

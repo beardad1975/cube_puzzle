@@ -57,8 +57,8 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="4493.2457"
-     inkscape:cx="4562.9463"
+     inkscape:cy="6880.8274"
+     inkscape:cx="4485.7359"
      inkscape:zoom="0.1683712"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -1277,5 +1277,34 @@
          x="1765.4185"
          sodipodi:role="line"
          id="tspan1028" /></text>
+    <text
+       inkscape:export-ydpi="26.477539"
+       inkscape:export-xdpi="26.477539"
+       transform="scale(1.1009297,0.90832322)"
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:111.785px;line-height:1.05;font-family:DFYuanBold-B5;-inkscape-font-specification:'DFYuanBold-B5, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#800080;fill-opacity:1;stroke:#e5dede;stroke-width:4.7688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="1541.8456"
+       y="1865.7526"
+       id="text1024"><tspan
+         sodipodi:role="line"
+         id="tspan1016"
+         x="1541.8456"
+         y="1865.7526"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:111.785px;font-family:DFHaiBaoW12-B5;-inkscape-font-specification:'DFHaiBaoW12-B5, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#800080;stroke:#e5dede;stroke-width:4.7688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">操</tspan><tspan
+         id="tspan1018"
+         sodipodi:role="line"
+         x="1541.8456"
+         y="1983.1268"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:111.785px;font-family:DFHaiBaoW12-B5;-inkscape-font-specification:'DFHaiBaoW12-B5, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#800080;stroke:#e5dede;stroke-width:4.7688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">作</tspan><tspan
+         id="tspan1020"
+         sodipodi:role="line"
+         x="1541.8456"
+         y="2100.501"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:111.785px;font-family:DFHaiBaoW12-B5;-inkscape-font-specification:'DFHaiBaoW12-B5, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#800080;stroke:#e5dede;stroke-width:4.7688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">練</tspan><tspan
+         id="tspan1022"
+         sodipodi:role="line"
+         x="1541.8456"
+         y="2217.8752"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:111.785px;font-family:DFHaiBaoW12-B5;-inkscape-font-specification:'DFHaiBaoW12-B5, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#800080;stroke:#e5dede;stroke-width:4.7688;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">習</tspan></text>
   </g>
 </svg>

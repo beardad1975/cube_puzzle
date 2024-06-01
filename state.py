@@ -64,7 +64,7 @@ class StateAction(Machine):
         common.title_logo.color = color.rgba(255,255,255,0)
         common.title_logo.fade_in(duration=1.5)
         
-        common.title_btn.enabled = True
+        #common.title_btn.enabled = True
         common.title_btn.color = color.rgba(255,255,255,0)        
         common.title_btn.fade_in(duration=2)       
         
@@ -267,7 +267,7 @@ class StateAction(Machine):
         
         
         self.last_time = time.time()
-        self.counter = 3
+        self.counter = 5
     
     def photo_update(self):
         capture.update_texture()
